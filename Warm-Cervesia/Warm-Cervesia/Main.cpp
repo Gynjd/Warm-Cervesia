@@ -8,5 +8,5 @@ int main() {
 
 	cout << output << endl;
 	system("PAUSE");
-	return 0;
+	return 0; 
 }

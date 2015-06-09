@@ -11,6 +11,9 @@ int counter;
 ofstream output;
 stringstream sstream;
 
+void keys(char keys);
+void flushString();
+
 int main() {
 
 	char chars[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890" };
